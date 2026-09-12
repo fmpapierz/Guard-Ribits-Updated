@@ -10,7 +10,7 @@ displayName = "Guard Ribbits"
 credits = "Credits go to the Bonsai Studios team"
 authors = "sunbatheproductions28"
 description = "Add Guard Ribbits that will defend any Ribbit from any monster/enemy they come across."
-logoFile = "logo.png"
+iconFile = "logo.png"
 displayURL = "https://github.com/fmpapierz/Guard-Ribits-Updated"
 
 [[dependencies.guardribbits]]
