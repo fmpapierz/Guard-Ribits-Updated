@@ -3,13 +3,9 @@
   "id": "guardribbits",
   "version": "${version}",
   "name": "Guard Ribbits",
-  "description": "Add Guard Ribbits that will defend any Ribbit from any monster/enemy they come across.",
+  "description": "Add Guard Ribbits that will defend any Ribbit from any monster/enemy they come across.\nOriginally created by sunbatheproductions28. Credits go to the Bonsai Studios team.",
   "authors": [
     "hooneybAdgers"
-  ],
-  "contributors": [
-    "sunbatheproductions28",
-    "Bonsai Studios"
   ],
   "contact": {
     "homepage": "https://github.com/fmpapierz/Guard-Ribits-Updated",
