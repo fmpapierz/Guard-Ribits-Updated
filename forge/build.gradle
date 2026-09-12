@@ -23,12 +23,24 @@ configurations {
         canBeConsumed = false
     }
     compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
+
+    // Deliberately not on runtimeClasspath. Architectury hands the development run a transformed
+    // copy of the common jar, and Forge resolves both copies as modules: two modules exporting
+    // the same packages is a hard resolution failure. developmentForge is what the transformer
+    // reads, and the shadowBundle configuration is what the published jar bundles.
     developmentForge.extendsFrom common
 
     shadowBundle {
         canBeResolved = true
         canBeConsumed = false
+    }
+
+    configureEach {
+        // Minecraft ships unobfuscated, so there is nothing to translate between SRG and
+        // official names. Architectury's naming service demands a mappings file regardless and
+        // throws when it cannot find one; the access transformer parser swallows that and
+        // reports every line of Forge's own transformer as invalid, which aborts the launch.
+        exclude group: 'dev.architectury', module: 'architectury-naming-service'
     }
 }
 
@@ -50,11 +62,35 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionForge')
 }
 
+// In a development run Forge merges this project's classes and resources output directories
+// into one union filesystem and then asks that union for its module name. A union root has no
+// file name to derive a name from, so the classpath scan aborts with
+// "Invalid module name: '' is not a Java identifier" before a single mod is discovered.
+// Stating the name explicitly gives the union one. The jar carries the same attribute.
+def automaticModuleName = 'sunbatheproductions28.guardribbits.forge'
+
+def devManifest = tasks.register('devManifest') {
+    def outputDir = layout.buildDirectory.dir('generated/manifest')
+    inputs.property 'automaticModuleName', automaticModuleName
+    outputs.dir outputDir
+
+    doLast {
+        def file = outputDir.get().file('META-INF/MANIFEST.MF').asFile
+        file.parentFile.mkdirs()
+        file.text = "Manifest-Version: 1.0\r\nAutomatic-Module-Name: ${automaticModuleName}\r\n\r\n"
+    }
+}
+
 processResources {
     inputs.property 'version', project.version
 
-    // The access widener lives in the common module; each loader jar gets a copy.
+    from(devManifest)
+
+    // The access widener lives in the common module; each loader jar gets a copy. Forge
+    // additionally insists on a pack.mcmeta in the mod root, and in a development run the mod
+    // root is this project's own output rather than the bundled common jar.
     from(project(':common').file('src/main/resources/guardribbits.accesswidener'))
+    from(project(':common').file('src/main/resources/pack.mcmeta'))
 
     filesMatching('META-INF/mods.toml') {
         expand version: project.version
@@ -66,10 +102,19 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = ''
+
+    // The resources carry a manifest of their own for development runs; the task writes its
+    // own first, so keeping the first copy keeps the generated one.
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 jar {
     archiveClassifier = 'thin'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes 'Automatic-Module-Name': automaticModuleName
+    }
 }
 
 assemble.dependsOn shadowJar

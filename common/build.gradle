@@ -16,12 +16,3 @@ dependencies {
     implementation "com.geckolib:geckolib-common-$rootProject.minecraft_version:$rootProject.geckolib_version"
     compileOnly files("$rootProject.projectDir/libs/ribbits-common-${rootProject.ribbits_version}.jar")
 }
-
-// Architectury's runtime transformer writes its output with Files.createTempFile(null, ".jar"),
-// which yields a purely numeric file name that Forge cannot derive a module name from. Naming the
-// module in the manifest takes precedence over the file name.
-jar {
-    manifest {
-        attributes 'Automatic-Module-Name': 'sunbatheproductions28.guardribbits.common'
-    }
-}
