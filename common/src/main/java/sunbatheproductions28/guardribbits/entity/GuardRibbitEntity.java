@@ -47,10 +47,10 @@ import org.jetbrains.annotations.Nullable;
 public class GuardRibbitEntity extends AgeableMob implements GeoEntity, NeutralMob {
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
+    // The shipped model only defines idle and walk; asking for an animation it does not have
+    // throws at render time.
     private static final RawAnimation IDLE = RawAnimation.begin().thenPlay("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenPlay("walk");
-    private static final RawAnimation ATTACK = RawAnimation.begin().thenPlay("attack");
-    private static final RawAnimation GUARD = RawAnimation.begin().thenPlay("guard");
 
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
@@ -157,11 +157,7 @@ public class GuardRibbitEntity extends AgeableMob implements GeoEntity, NeutralM
     private <E extends GeoAnimatable> PlayState predicate(AnimationTest<E> state) {
         AnimationController<E> controller = state.controller();
 
-        if (this.isAttacking()) {
-            controller.setAnimation(ATTACK);
-        } else if (this.isGuarding()) {
-            controller.setAnimation(GUARD);
-        } else if (state.isMoving()) {
+        if (state.isMoving()) {
             controller.setAnimation(WALK);
         } else {
             controller.setAnimation(IDLE);

@@ -7,9 +7,9 @@ import sunbatheproductions28.guardribbits.GuardRibbitsCommon;
 import sunbatheproductions28.guardribbits.entity.GuardRibbitEntity;
 
 public class GuardRibbitModel extends GeoModel<GuardRibbitEntity> {
-    private static final Identifier MODEL = GuardRibbitsCommon.id("geo/guard_ribbit.geo.json");
+    private static final Identifier MODEL = GuardRibbitsCommon.id("guard_ribbit");
     private static final Identifier TEXTURE = GuardRibbitsCommon.id("textures/entity/guard_ribbit.png");
-    private static final Identifier ANIMATION = GuardRibbitsCommon.id("animations/guard_ribbit.animation.json");
+    private static final Identifier ANIMATION = GuardRibbitsCommon.id("guard_ribbit");
 
     @Override
     public Identifier getModelResource(GeoRenderState renderState) {
