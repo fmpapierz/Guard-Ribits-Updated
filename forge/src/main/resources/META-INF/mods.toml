@@ -15,31 +15,28 @@ displayURL = "https://github.com/fmpapierz/Guard-Ribits-Updated"
 
 [[dependencies.guardribbits]]
 modId = "minecraft"
-type = "required"
+mandatory = true
 versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.guardribbits]]
 modId = "forge"
-type = "required"
+mandatory = true
 versionRange = "[65,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.guardribbits]]
 modId = "ribbits"
-type = "required"
+mandatory = true
 versionRange = "[4.2.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.guardribbits]]
 modId = "geckolib"
-type = "required"
+mandatory = true
 versionRange = "[1.0.0,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[mixins]]
-config = "guardribbits.mixins.json"
