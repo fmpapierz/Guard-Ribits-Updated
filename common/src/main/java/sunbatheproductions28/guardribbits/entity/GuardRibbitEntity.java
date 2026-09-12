@@ -37,6 +37,7 @@ import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.polarbear.PolarBear;
 import net.minecraft.world.entity.monster.zombie.Zombie;
+import com.yungnickyoung.minecraft.ribbits.entity.RibbitEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
@@ -206,8 +207,16 @@ public class GuardRibbitEntity extends AgeableMob implements GeoEntity, NeutralM
         return super.hurtServer(level, source, damage);
     }
 
-    public boolean defendsRibbitAgainst(@Nullable LivingEntity lastHurtByMob) {
-        return !(lastHurtByMob instanceof Player);
+    /**
+     * Whether this guard retaliates on a Ribbit's behalf against the given attacker. Players count:
+     * the guards exist to punish anything that harms a Ribbit. Ribbits and other guards do not, so
+     * they never turn on each other.
+     */
+    public boolean defendsRibbitAgainst(@Nullable LivingEntity attacker) {
+        if (attacker == null || attacker == this) {
+            return false;
+        }
+        return !(attacker instanceof GuardRibbitEntity) && !(attacker instanceof RibbitEntity);
     }
 
     @Override
