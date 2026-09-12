@@ -1,0 +1,45 @@
+modLoader = "javafml"
+loaderVersion = "[24,)"
+issueTrackerURL = "https://github.com/fmpapierz/Guard-Ribits-Updated/issues"
+license = "GNU LGPL 3.0"
+
+[[mods]]
+modId = "guardribbits"
+version = "${version}"
+displayName = "Guard Ribbits"
+credits = "Credits go to the Bonsai Studios team"
+authors = "sunbatheproductions28"
+description = "Add Guard Ribbits that will defend any Ribbit from any monster/enemy they come across."
+logoFile = "logo.png"
+displayURL = "https://github.com/fmpapierz/Guard-Ribits-Updated"
+
+[[dependencies.guardribbits]]
+modId = "minecraft"
+type = "required"
+versionRange = "[26.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.guardribbits]]
+modId = "forge"
+type = "required"
+versionRange = "[65,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.guardribbits]]
+modId = "ribbits"
+type = "required"
+versionRange = "[4.2.0,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.guardribbits]]
+modId = "geckolib"
+type = "required"
+versionRange = "[1.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "guardribbits.mixins.json"

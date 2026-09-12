@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "quilt_loader": {
+    "group": "sunbatheproductions28",
+    "id": "guardribbits",
+    "version": "${version}",
+    "metadata": {
+      "name": "Guard Ribbits",
+      "description": "Add Guard Ribbits that will defend any Ribbit from any monster/enemy they come across.",
+      "contributors": {
+        "sunbatheproductions28": "Author"
+      },
+      "contact": {
+        "homepage": "https://github.com/fmpapierz/Guard-Ribits-Updated",
+        "sources": "https://github.com/fmpapierz/Guard-Ribits-Updated",
+        "issues": "https://github.com/fmpapierz/Guard-Ribits-Updated/issues"
+      },
+      "icon": "icon.png",
+      "license": "LGPL-3.0"
+    },
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "entrypoints": {
+      "init": [
+        "sunbatheproductions28.guardribbits.GuardRibbitsFabric"
+      ],
+      "client_init": [
+        "sunbatheproductions28.guardribbits.client.GuardRibbitsFabricClient"
+      ]
+    },
+    "depends": [
+      { "id": "quilt_loader", "versions": "*" },
+      { "id": "minecraft", "versions": ">=26.2" },
+      { "id": "geckolib", "versions": "*" },
+      { "id": "fabric-api", "versions": "*" },
+      { "id": "ribbits", "versions": "*" }
+    ]
+  },
+  "mixin": [
+    "guardribbits.mixins.json"
+  ],
+  "access_widener": "guardribbits.accesswidener",
+  "minecraft": {
+    "environment": "*"
+  }
+}

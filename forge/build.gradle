@@ -1,0 +1,75 @@
+plugins {
+    id 'com.gradleup.shadow'
+}
+
+architectury {
+    platformSetupLoomIde()
+    forge()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+
+    forge {
+        convertAccessWideners = true
+        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+        mixinConfig 'guardribbits.mixins.json'
+    }
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+repositories {
+    maven {
+        name = 'MinecraftForge'
+        url = 'https://maven.minecraftforge.net/'
+    }
+}
+
+dependencies {
+    forge "net.minecraftforge:forge:$rootProject.forge_version"
+
+    implementation "com.geckolib:geckolib-forge-$rootProject.minecraft_version:$rootProject.geckolib_version"
+    implementation files("$rootProject.projectDir/libs/ribbits-forge-${rootProject.ribbits_version}.jar")
+
+    // Without remapping there is no namedElements variant, so the plain project is used.
+    common(project(':common')) { transitive false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionForge')
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    // The access widener lives in the common module; each loader jar gets a copy.
+    from(project(':common').file('src/main/resources/guardribbits.accesswidener'))
+
+    filesMatching('META-INF/mods.toml') {
+        expand version: project.version
+    }
+}
+
+// Minecraft is unobfuscated, so Loom performs no remap step: the shadowed jar that
+// bundles the common module is the distributable artifact.
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = ''
+}
+
+jar {
+    archiveClassifier = 'thin'
+}
+
+assemble.dependsOn shadowJar

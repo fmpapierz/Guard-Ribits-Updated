@@ -1,0 +1,18 @@
+architectury {
+    // Quilt ships the Fabric sources and consumes the Fabric transform, so it is not
+    // a separate Architectury target here.
+    common rootProject.enabled_platforms.split(',').findAll { it != 'quilt' }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/guardribbits.accesswidener")
+}
+
+dependencies {
+    // Fabric Loader is present here only for the @Environment annotations, which get
+    // remapped to the correct annotations on each platform. Do NOT use other classes from it.
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+
+    implementation "com.geckolib:geckolib-common-$rootProject.minecraft_version:$rootProject.geckolib_version"
+    compileOnly files("$rootProject.projectDir/libs/ribbits-common-${rootProject.ribbits_version}.jar")
+}

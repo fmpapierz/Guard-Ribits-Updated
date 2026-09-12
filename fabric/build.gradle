@@ -1,0 +1,71 @@
+plugins {
+    id 'com.gradleup.shadow'
+}
+
+architectury {
+    platformSetupLoomIde()
+    fabric()
+}
+
+loom {
+    accessWidenerPath = project(":common").loom.accessWidenerPath
+}
+
+configurations {
+    common {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentFabric.extendsFrom common
+
+    // Files in this configuration get bundled into the mod jar by the Shadow plugin.
+    shadowBundle {
+        canBeResolved = true
+        canBeConsumed = false
+    }
+}
+
+repositories {
+    maven {
+        url = "https://maven.terraformersmc.com/releases/"
+        content { includeGroup "com.terraformersmc" }
+    }
+}
+
+dependencies {
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+
+    implementation "com.geckolib:geckolib-fabric-$rootProject.minecraft_version:$rootProject.geckolib_version"
+    implementation files("$rootProject.projectDir/libs/ribbits-fabric-${rootProject.ribbits_version}.jar")
+
+    // Without remapping there is no namedElements variant, so the plain project is used.
+    common(project(':common')) { transitive false }
+    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    // The access widener lives in the common module; each loader jar gets a copy.
+    from(project(':common').file('src/main/resources/guardribbits.accesswidener'))
+
+    filesMatching('fabric.mod.json') {
+        expand version: project.version
+    }
+}
+
+// Minecraft is unobfuscated, so Loom performs no remap step: the shadowed jar that
+// bundles the common module is the distributable artifact.
+shadowJar {
+    configurations = [project.configurations.shadowBundle]
+    archiveClassifier = ''
+}
+
+jar {
+    archiveClassifier = 'thin'
+}
+
+assemble.dependsOn shadowJar

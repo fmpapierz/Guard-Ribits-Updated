@@ -1,0 +1,84 @@
+{
+	"format_version": "1.12.0",
+	"minecraft:geometry": [
+		{
+			"description": {
+				"identifier": "geometry.default_ribbit",
+				"texture_width": 128,
+				"texture_height": 128,
+				"visible_bounds_width": 2,
+				"visible_bounds_height": 2.5,
+				"visible_bounds_offset": [0, 0.75, 0]
+			},
+			"bones": [
+				{
+					"name": "main",
+					"pivot": [0, 0, 0]
+				},
+				{
+					"name": "body",
+					"parent": "main",
+					"pivot": [0, 2, -1],
+					"cubes": [
+						{"origin": [-4, 2, -4], "size": [8, 8, 7], "uv": [0, 0]},
+						{"origin": [-5, 8, -2], "size": [4, 4, 3], "uv": [14, 15]},
+						{"origin": [1, 8, -2], "size": [4, 4, 3], "uv": [0, 15]}
+					]
+				},
+				{
+					"name": "left_arm",
+					"parent": "body",
+					"pivot": [4.9045, 5.56862, -3],
+					"rotation": [0, 0, -27.5],
+					"cubes": [
+						{"origin": [3.9045, 3.56862, -1], "size": [2, 4, 2], "uv": [23, 0]}
+					]
+				},
+				{
+					"name": "right_arm",
+					"parent": "body",
+					"pivot": [-4.45045, 4.75916, -1.5],
+					"rotation": [-57.5, 0, 27.5],
+					"cubes": [
+						{"origin": [-5.70045, 3.00916, -2.5], "size": [2, 4, 2], "pivot": [-4.70045, 5.00916, -1.5], "rotation": [-2.5, 0, 0], "uv": [23, 0], "mirror": true}
+					]
+				},
+				{
+					"name": "right_leg",
+					"parent": "main",
+					"pivot": [-2, 2.1, -0.5],
+					"cubes": [
+						{"origin": [-3, 0, -1.5], "size": [2, 2, 2], "uv": [8, 25], "mirror": true},
+						{"origin": [-4, 0, -2.5], "size": [3, 0, 3], "uv": [0, 31], "mirror": true}
+					]
+				},
+				{
+					"name": "left_leg",
+					"parent": "main",
+					"pivot": [2, 2.1, -0.5],
+					"cubes": [
+						{"origin": [1, 0, -1.5], "size": [2, 2, 2], "uv": [8, 25]},
+						{"origin": [1, 0, -2.5], "size": [3, 0, 3], "uv": [0, 31]}
+					]
+				},
+				{
+					"name": "spear",
+					"pivot": [-2.5, 12.75, -5.1],
+					"cubes": [
+						{"origin": [-4.38429, 11.99824, -3.1], "size": [1, 4, 0], "uv": [96, 22]},
+						{"origin": [-5.38429, -0.00176, -3.6], "size": [1, 12, 1], "uv": [86, 34]},
+						{"origin": [-5.38429, 11.99824, -3.6], "size": [1, 4, 1], "uv": [92, 21]},
+						{"origin": [-6.38429, 11.99824, -3.1], "size": [1, 4, 0], "uv": [98, 22]}
+					]
+				},
+				{
+					"name": "shield",
+					"pivot": [-0.61953, 4.1388, -4.23547],
+					"cubes": [
+						{"origin": [5.81379, 1.25424, -3.44696], "size": [1, 6, 6], "pivot": [6.31379, 4.25424, -0.44696], "rotation": [0, 0, 17.5], "uv": [94, 30]}
+					]
+				}
+			]
+		}
+	]
+}

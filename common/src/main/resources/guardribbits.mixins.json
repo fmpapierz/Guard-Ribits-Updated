@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "sunbatheproductions28.guardribbits.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "RibbitEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}
